@@ -1,0 +1,44 @@
+VirtualBox and created a new VM with 2 CPUs and 2GB RAM
+# Complete the below on both the nodes - master and worker
+disable swap /etc/fstab
+Adapter 1 : NAT
+Adapter 2 : Host Only Adapter
+sudo apt-get install openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+
+# Add the below line in /etc/network/interfaces - update with your own IP address
+# Host-only network
+auto enp0s8
+iface enp0s8 inet static
+address 192.168.56.110
+netmask 255.255.255.0
+network 192.168.56.0
+broadcast 192.168.56.255
+
+sudo apt install docker.io
+sudo systemctl enable docker
+docker --version
+sudo apt-get install apt-transport-https curl -y
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+sudo apt-get install kubeadm -y
+kubeadm version
+# Only on Master
+sudo kubeadm init --apiserver-advertise-address=192.168.56.111 --pod-network-cidr=192.168.0.0/16
+# Important: Follow the instructions from the ouput of the above command
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+curl https://docs.projectcalico.org/v3.9/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
+
+kubectl get nodes
+# Only on Node (worker)
+
+
+kubeadm join 192.168.56.111:6443 --token kte4oi.t4uxnsy8037y54ym \
+    --discovery-token-ca-cert-hash sha256:19190c683b2a93cbae4841d70dd9cd42e453f1e1d10e53214f4b2e93306d51aa
+
