@@ -1,0 +1,47 @@
+https://likegeeks.com/ssh-connection-refused/
+https://www.cyberciti.biz/faq/ubuntu-18-04-setup-ssh-public-key-authentication/
+
+
+Docker Session:
+
+Install Docker
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+docker -v
+
+sudo groupadd docker
+sudo usermod -aG docker ${USER}
+
+docker run hello-world
+
+docker build -t flask_app:0.1 .
+docker images
+docker run -d -p 5000:5000 flask_app:0.1
+docker ps
+docker stop container_name
+docker rm container_name
+docker rmi flask_app:0.1
+
+docker system prune -a
+
+Install Docker Compose 
+docker-compose -v
+
+docker-compose build
+docker-compose up -d
+
+docker start <container name>
+
+# Stop all running containers
+$ docker stop $(docker ps -q)
+# Remove all containers
+$ docker rm $(docker ps -aq)
+# Remove all images
+$ docker rmi $(docker images -aq)
+
+docker exec -it thirsty_zhukovsky /bin/bash
+cd /var/jenkins_home/workspace/java_pipe/target
+
+7be89fe5-7b4c-45f1-8e10-6abbff02800d
+
+https://github.com/docker/labs/blob/master/developer-tools/java/chapters/appa-common-commands.adoc
+https://docker-curriculum.com/#dockerfile
